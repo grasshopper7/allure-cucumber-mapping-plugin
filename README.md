@@ -1,0 +1,1 @@
+Allure id and Cucumber Scenario uri mapping
