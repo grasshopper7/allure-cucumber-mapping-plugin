@@ -1,6 +1,9 @@
 package tech.grasshopper;
 
+import java.io.File;
 import java.io.FileWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -37,7 +40,7 @@ public class AllureCucumberMappingPlugin implements ConcurrentEventListener {
 		AllureLifecycle lifecycle = Allure.getLifecycle();
 
 		if (lifecycle.getCurrentTestCase().isPresent())
-			mapping.put(event.getTestCase().getUri() + ":" + event.getTestCase().getLocation().getLine(),
+			mapping.put(relativize(event.getTestCase().getUri()) + ":" + event.getTestCase().getLocation().getLine(),
 					lifecycle.getCurrentTestCase().get());
 	}
 
@@ -53,6 +56,24 @@ public class AllureCucumberMappingPlugin implements ConcurrentEventListener {
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Unable to create mapping file. - " + e.getMessage());
+		}
+	}
+
+	private URI relativize(URI uri) {
+		if (!"file".equals(uri.getScheme())) {
+			return uri;
+		}
+		if (!uri.isAbsolute()) {
+			return uri;
+		}
+
+		try {
+			URI root = new File("").toURI();
+			URI relative = root.relativize(uri);
+			// Scheme is lost by relativize
+			return new URI("file", relative.getSchemeSpecificPart(), relative.getFragment());
+		} catch (URISyntaxException e) {
+			throw new IllegalArgumentException(e.getMessage(), e);
 		}
 	}
 }

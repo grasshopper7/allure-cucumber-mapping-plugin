@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>tech.grasshopper</groupId>
 	<artifactId>allure-cucumber-mapping-plugin</artifactId>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 
 	<name>allure-cucumber-mapping-plugin</name>
 	<url>https://ghchirp.tech/</url>
@@ -33,7 +33,8 @@
 		<project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
 		<cucumber.version>7.2.3</cucumber.version>
-		<allure.version>2.14.0</allure.version>
+		<allure.version>2.17.3</allure.version>
+		<jackson.version>2.13.2</jackson.version>
 	</properties>
 
 	<scm>
@@ -51,6 +52,11 @@
 			<artifactId>allure-rest-assured</artifactId>
 			<version>${allure.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.cucumber</groupId>
